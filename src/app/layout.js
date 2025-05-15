@@ -1,14 +1,13 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Jost } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin"],
+  weight: ['400', '500', '600', '700', '800']
 });
 
 export const metadata = {
@@ -18,12 +17,33 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className="dark">
+      <head>
+
+        <script dangerouslySetInnerHTML={{
+          __html: `
+    (function() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  `,
+        }} />
+
+      </head>
+
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${jost.variable} antialiased`}
       >
+        <Navbar />
+
         {children}
+
       </body>
+
+
+
     </html>
   );
 }
